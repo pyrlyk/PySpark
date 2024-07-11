@@ -1,0 +1,17 @@
+Find the activity date and the pe_description of facilities with the name 'STREET CHURROS' and with a score of less than 95 points.
+------------------------------------------------------------------------------------------------
+import pyspark
+import pyspark.sql.functions as F
+
+los_angeles_restaurant_health_inspections = (
+    los_angeles_restaurant_health_inspections.filter(
+        (F.col("facility_name") == "STREET CHURROS") & (F.col("score") < 95)
+    ).select("activity_date", "pe_description")
+)
+
+los_angeles_restaurant_health_inspections.withColumn(
+    "activity_date", F.date_format("activity_date", "yyyy-MM-dd")
+)
+
+
+los_angeles_restaurant_health_inspections.toPandas()
